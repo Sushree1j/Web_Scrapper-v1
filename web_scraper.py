@@ -14,8 +14,7 @@ import csv
 import logging
 from typing import Dict, List, Optional, Union
 from urllib.parse import urljoin, urlparse
-from functools import lru_cache
-from datetime import datetime, timedelta
+from datetime import datetime
 import hashlib
 
 # Configure logging
@@ -49,7 +48,7 @@ class WebScraper:
         
         # Set default headers
         self.session.headers.update({
-            'User-Agent': user_agent or 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            'User-Agent': user_agent or 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         })
     
     def _get_cache_key(self, url: str) -> str:

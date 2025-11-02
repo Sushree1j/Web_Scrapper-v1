@@ -10,11 +10,16 @@ from bs4 import BeautifulSoup
 import json
 import time
 import re
+import csv
+import logging
 from typing import Dict, List, Optional, Union
 from urllib.parse import urljoin, urlparse
 from functools import lru_cache
 from datetime import datetime, timedelta
 import hashlib
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 
 class WebScraper:
@@ -111,7 +116,7 @@ class WebScraper:
                 
             except requests.exceptions.RequestException as e:
                 if attempt == max_retries - 1:
-                    print(f"Error fetching {url}: {e}")
+                    logger.error(f"Error fetching {url}: {e}")
                     return None
                 time.sleep(2 ** attempt)  # Exponential backoff
         
@@ -145,13 +150,9 @@ class WebScraper:
                 element = soup.select_one(selector)
                 elements = [element] if element else []
         else:
-            # XPath not directly supported by BeautifulSoup, use CSS as fallback
-            print("XPath not supported, using CSS selector instead")
-            if multiple:
-                elements = soup.select(selector)
-            else:
-                element = soup.select_one(selector)
-                elements = [element] if element else []
+            # XPath not directly supported by BeautifulSoup
+            logger.warning("XPath selectors not supported, please use CSS selectors instead")
+            return None
         
         # Extract values
         results = []
@@ -377,7 +378,7 @@ class WebScraper:
         """
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-        print(f"Data exported to {filename}")
+        logger.info(f"Data exported to {filename}")
     
     def export_to_csv(self, data: List[Dict], filename: str):
         """
@@ -387,10 +388,8 @@ class WebScraper:
             data: List of dictionaries to export
             filename: Output filename
         """
-        import csv
-        
         if not data:
-            print("No data to export")
+            logger.warning("No data to export")
             return
         
         keys = list(data[0].keys())
@@ -400,7 +399,7 @@ class WebScraper:
             writer.writeheader()
             writer.writerows(data)
         
-        print(f"Data exported to {filename}")
+        logger.info(f"Data exported to {filename}")
 
 
 class QuickScrapers:
@@ -486,6 +485,12 @@ class QuickScrapers:
 
 
 if __name__ == '__main__':
+    # Configure logging for demo
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(levelname)s: %(message)s'
+    )
+    
     # Example usage
     scraper = WebScraper()
     

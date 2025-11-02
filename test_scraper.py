@@ -5,6 +5,11 @@ Unit tests for the web scraper (without network dependencies)
 
 import sys
 import os
+import logging
+
+# Suppress logging during tests
+logging.basicConfig(level=logging.CRITICAL)
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from web_scraper import WebScraper

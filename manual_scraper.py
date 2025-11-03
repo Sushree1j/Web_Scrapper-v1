@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Command-line interface for the Web Scraper Tool
+Manual Web Scraper - Command-line interface with full control
+Use this for advanced scraping with command-line arguments.
+For an easier interactive experience, use auto_scraper.py instead.
 """
 
 import argparse
@@ -11,29 +13,29 @@ from web_scraper import WebScraper, QuickScrapers
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Advanced Web Scraper Tool - Fast, easy-to-use web scraping',
+        description='Manual Web Scraper - Command-line interface with full control',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   # Scrape text from a CSS selector
-  python scraper_cli.py --url https://example.com --selector "h1" --output titles.json
+  python manual_scraper.py --url https://example.com --selector "h1" --output titles.json
   
   # Scrape multiple elements
-  python scraper_cli.py --url https://example.com --selector "p" --multiple --output paragraphs.json
+  python manual_scraper.py --url https://example.com --selector "p" --multiple --output paragraphs.json
   
   # Scrape news headlines
-  python scraper_cli.py --news --url https://news.ycombinator.com --max 10
+  python manual_scraper.py --news --url https://news.ycombinator.com --max 10
   
   # Scrape product price
-  python scraper_cli.py --product --url https://example.com/product --price-selector ".price"
+  python manual_scraper.py --product --url https://example.com/product --price-selector ".price"
   
   # Scrape table data
-  python scraper_cli.py --table --url https://example.com --table-selector "table" --output data.csv
+  python manual_scraper.py --table --url https://example.com --table-selector "table" --output data.csv
   
   # Quick scrapers
-  python scraper_cli.py --quick hacker-news --max 20
-  python scraper_cli.py --quick quotes
-  python scraper_cli.py --quick wikipedia --topic "Web_scraping"
+  python manual_scraper.py --quick hacker-news --max 20
+  python manual_scraper.py --quick quotes
+  python manual_scraper.py --quick wikipedia --topic "Web_scraping"
         """
     )
     

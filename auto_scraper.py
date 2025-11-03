@@ -9,6 +9,11 @@ import os
 from web_scraper import WebScraper, QuickScrapers
 import json
 
+# Default selectors
+DEFAULT_HEADLINE_SELECTOR = 'h1, h2, h3'
+DEFAULT_CONTENT_SELECTOR = 'article, main, .content'
+DEFAULT_TABLE_SELECTOR = 'table'
+
 def print_banner():
     """Print welcome banner"""
     print("\n" + "=" * 70)
@@ -129,9 +134,9 @@ def main():
             max_headlines = int(get_input("How many headlines to extract?", default="10"))
             custom_selector = get_yes_no("Use custom headline selector?", default='n')
             
-            headline_selector = 'h1, h2, h3'
+            headline_selector = DEFAULT_HEADLINE_SELECTOR
             if custom_selector:
-                headline_selector = get_input("Enter CSS selector for headlines", default="h1, h2, h3")
+                headline_selector = get_input("Enter CSS selector for headlines", default=DEFAULT_HEADLINE_SELECTOR)
             
             print(f"\n⏳ Scraping news headlines from {url}...")
             result = scraper.scrape_news_headlines(url, headline_selector=headline_selector, 
@@ -166,7 +171,7 @@ def main():
             print("\n📋 STEP 2: Enter Table Details")
             print("-" * 70)
             url = get_input("Enter the URL containing the table")
-            table_selector = get_input("Enter CSS selector for table", default="table")
+            table_selector = get_input("Enter CSS selector for table", default=DEFAULT_TABLE_SELECTOR)
             has_header = get_yes_no("Does the table have a header row?", default='y')
             
             print(f"\n⏳ Scraping table data from {url}...")
@@ -225,7 +230,7 @@ def main():
                 
             elif text_choice == '2':
                 content_selector = get_input("Enter selector for main content area", 
-                                            default="article, main, .content")
+                                            default=DEFAULT_CONTENT_SELECTOR)
                 print(f"\n⏳ Extracting text from content area...")
                 result = scraper.scrape(url, content_selector, multiple=False)
                 if result:
